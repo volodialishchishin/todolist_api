@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import {BaseController} from "../common/base.controller.js";
+import {BaseController} from "../common/base.controller";
 import {ToDoService} from "./toDo.service";
 
 export class TodoRouter extends BaseController  {

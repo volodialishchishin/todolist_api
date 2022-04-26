@@ -1,4 +1,4 @@
-import {TodolistType} from "../interfaces/enties.interfaces.js";
+import {TodolistType} from "../interfaces/enties.interfaces";
 
  export let data:Array<TodolistType> = [
     {

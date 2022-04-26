@@ -10,21 +10,20 @@ export class App  {
     constructor(private TodoRouter: TodoRouter
     ) {
         this.app = express();
-        this.app.use(cors())
         this.port = 8000;
-    }
-
-    useCors():void{
-       this.app.use(cors())
     }
 
     useRoutes(): void {
         this.app.use('/', this.TodoRouter.router);
     }
 
+    useCors() : void{
+        this.app.use(cors())
+    }
+
 
     init() {
-        this.app.use(cors())
+        this.useCors()
         this.useRoutes();
         this.server = this.app.listen(this.port);
         console.log('Server listening' + this.port)

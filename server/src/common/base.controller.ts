@@ -1,6 +1,4 @@
-import {Response, Router} from 'express';
-export {Router} from 'express';
-import 'reflect-metadata';
+import {Router} from 'express';
 import {IControllerRoute} from "../interfaces/router.interface";
 
 export abstract class BaseController  {

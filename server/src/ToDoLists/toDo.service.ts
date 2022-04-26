@@ -1,5 +1,5 @@
-import {TodolistType} from "../interfaces/enties.interfaces.js";
-import {data} from './todo.repository.js'
+import {TodolistType} from "../interfaces/enties.interfaces";
+import {data} from './todo.repository'
 import {ResponseType, TaskType, UpdateTaskModelType} from "../../../client/src/api/todolists-api";
 
 export  class ToDoService  {
