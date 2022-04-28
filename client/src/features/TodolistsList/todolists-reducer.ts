@@ -56,7 +56,10 @@ export const addTodolistTC = (title: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         todolistsAPI.createTodolist(title)
             .then((res) => {
-                dispatch(addTodolistAC(res.data.data.item))
+                console.log(res)
+                // @ts-ignore
+                dispatch(addTodolistAC(res.data))
+                console.log(res.data)
             })
     }
 }

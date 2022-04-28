@@ -1,3 +1,5 @@
+import {TaskStatuses} from "../../../client/src/api/todolists-api";
+
 export interface TodolistType  {
     id: string
     title: string
@@ -5,14 +7,8 @@ export interface TodolistType  {
     order: number
 }
 export interface TaskType {
-    description: string
     title: string
-    status: number
-    priority: number
-    startDate: Date
-    deadline: Date
+    status: TaskStatuses
     id: string
     todoListId: string
-    order: number
-    addedDate: string
 }

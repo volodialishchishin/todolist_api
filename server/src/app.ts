@@ -1,4 +1,4 @@
-import express, {Express, NextFunction, Request, Response} from 'express';
+import express, {Express} from 'express';
 import {Server} from 'http';
 import {TodoRouter} from "./ToDoLists/todo.router.js";
 import cors from 'cors'
@@ -17,12 +17,16 @@ export class App  {
         this.app.use('/', this.TodoRouter.router);
     }
 
+    useJson():void{
+        this.app.use(express.json())
+    }
+
     useCors() : void{
         this.app.use(cors())
     }
 
-
     init() {
+        this.useJson()
         this.useCors()
         this.useRoutes();
         this.server = this.app.listen(this.port);

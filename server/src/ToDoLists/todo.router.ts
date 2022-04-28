@@ -1,49 +1,55 @@
 import { NextFunction, Request, Response } from 'express'
 import {BaseController} from "../common/base.controller";
 import {ToDoService} from "./toDo.service";
+import {todoRepository} from "./todo.repository";
 
 export class TodoRouter extends BaseController  {
     constructor(
-        private ToDoService: ToDoService) {
+        private ToDoService: ToDoService
+        ) {
         super();
         this.bindRoutes([
-            { path: '/todolists', method: 'get', func: this.getTodoLists },
-            { path: '/todolists', method: 'post', func: this.createTodolist },
-            { path: '/todolists/:id', method: 'delete', func: this.deleteTodolist },
-            { path: '/todolists/:id', method: 'put', func: this.getTodoLists },
-            { path: '/todolists/:id/tasks', method: 'get', func: this.getTasks },
-            { path: '/todolists/:id/tasks/:id', method: 'delete', func: this.deleteTask },
-            { path: '/todolists/:id/tasks/:id', method: 'put', func: this.updateTask },
-            { path: '/todolists/:id/tasks', method: 'post', func: this.createTask },
+            { path: '/todolists', method: 'get', func: this.getTodoLists() },
+            { path: '/todolists', method: 'post', func: this.createTodolist() },
+            { path: '/todolists/:id', method: 'delete', func: this.deleteTodolist()},
+            { path: '/todolists/:id', method: 'put', func: this.updateTodolist() },
+            { path: '/todolists/:id/tasks', method: 'get', func: this.getTasks() },
+            { path: '/todolists/:id/tasks/:taskid', method: 'delete', func: this.deleteTask()},
+            { path: '/todolists/:id/tasks/:taskid', method: 'put', func: this.updateTask() },
+            { path: '/todolists/:id/tasks', method: 'post', func: this.createTask() },
         ]);
     }
 
-    getTodoLists(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
+    getTodoLists() {
+        return this.ToDoService.getTodolists()
     }
 
-    createTodolist(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
-    }
-    deleteTodolist(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
-    }
-    updateTodolist(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
-    }
-    getTasks(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
-    }
-    deleteTask(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
+    createTodolist() {
+        return this.ToDoService.createTodolist()
     }
 
-    createTask(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
+    deleteTodolist() {
+        return this.ToDoService.deleteTodolist()
     }
 
-    updateTask(req: Request, res: Response, next: NextFunction): void {
-        res.send(this.ToDoService.getTodolists())
+    updateTodolist() {
+        return this.ToDoService.updateTodolist()
+    }
+
+    getTasks() {
+        return this.ToDoService.getTasks()
+    }
+
+    deleteTask() {
+        return  this.ToDoService.deleteTask()
+    }
+
+    createTask() {
+        return this.ToDoService.createTask()
+    }
+
+    updateTask() {
+        return this.ToDoService.updateTask()
     }
 }
 

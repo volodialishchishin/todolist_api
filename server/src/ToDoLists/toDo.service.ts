@@ -1,32 +1,40 @@
-import {TodolistType} from "../interfaces/enties.interfaces";
-import {data} from './todo.repository'
-import {ResponseType, TaskType, UpdateTaskModelType} from "../../../client/src/api/todolists-api";
+import {todoRepository} from "./todo.repository";
 
 export  class ToDoService  {
-    _data:Array<TodolistType>
-    constructor() {
-        this._data = data
+
+    constructor(private todoRepository:todoRepository) {
+
     }
-    getTodolists(): Array<TodolistType> {
-        return this._data;
-    }
-    createTodolist(title: string) {
+    getTodolists()  {
+       return this.todoRepository.selectToDoLists
     }
 
-    deleteTodolist(id: string) {
-    }
-    updateTodolist(id: string, title: string) {
-    }
-
-    getTasks(todolistId: string) {
+    createTodolist() {
+        return this.todoRepository.InsertToDoList
     }
 
-    deleteTask(todolistId: string, taskId: string) {
+    deleteTodolist() {
+        return this.todoRepository.deleteTodolist
     }
 
-    createTask(todolistId: string, taskTitile: string) {
+    updateTodolist() {
+        return this.todoRepository.updateTodolist
+
     }
 
-    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+    getTasks() {
+        return this.todoRepository.selectTasks
+    }
+
+    deleteTask() {
+        return this.todoRepository.deleteTask
+    }
+
+    createTask() {
+        return this.todoRepository.insertTask
+    }
+
+    updateTask() {
+        return this.todoRepository.updateTask
     }
 }
