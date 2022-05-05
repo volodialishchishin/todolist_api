@@ -1,58 +1,80 @@
-import { NextFunction, Request, Response } from 'express'
-import {BaseController} from "../common/base.controller";
-import {ToDoService} from "./toDo.service";
-import {todoRepository} from "./todo.repository";
+import {BaseController} from '../common/base.controller';
+import {ToDoService} from './todo.service';
+import {Request, Response} from 'express';
+import {ItodoRouter} from './todo.router.interface';
+import {inject, injectable} from 'inversify';
+import {TYPES} from '../types';
 
-export class TodoRouter extends BaseController  {
-    constructor(
-        private ToDoService: ToDoService
-        ) {
-        super();
-        this.bindRoutes([
-            { path: '/todolists', method: 'get', func: this.getTodoLists() },
-            { path: '/todolists', method: 'post', func: this.createTodolist() },
-            { path: '/todolists/:id', method: 'delete', func: this.deleteTodolist()},
-            { path: '/todolists/:id', method: 'put', func: this.updateTodolist() },
-            { path: '/todolists/:id/tasks', method: 'get', func: this.getTasks() },
-            { path: '/todolists/:id/tasks/:taskid', method: 'delete', func: this.deleteTask()},
-            { path: '/todolists/:id/tasks/:taskid', method: 'put', func: this.updateTask() },
-            { path: '/todolists/:id/tasks', method: 'post', func: this.createTask() },
-        ]);
-    }
+@injectable()
+export class ToDoRouter extends BaseController implements ItodoRouter {
+	constructor(
+        @inject(TYPES.ToDoService) private ToDoService: ToDoService,
+	) {
+		super();
+		this.bindRoutes([
+			{path: '/todolists', method: 'get', func: this.getTodoLists},
+			{path: '/todolists', method: 'post', func: this.createTodolist},
+			{path: '/todolists/:id', method: 'delete', func: this.deleteTodolist},
+			{path: '/todolists/:id', method: 'put', func: this.updateTodolist},
+			{path: '/todolists/:id/tasks', method: 'get', func: this.getTasks},
+			{path: '/todolists/:id/tasks/:taskid', method: 'delete', func: this.deleteTask},
+			{path: '/todolists/:id/tasks/:taskid', method: 'put', func: this.updateTask},
+			{path: '/todolists/:id/tasks', method: 'post', func: this.createTask},
+		]);
+	}
 
-    getTodoLists() {
-        return this.ToDoService.getTodolists()
-    }
+	async getTodoLists(req: Request, res: Response): Promise<void> {
+		const todolists = await this.ToDoService.getTodolists();
+		res.json(todolists.rows);
+	}
 
-    createTodolist() {
-        return this.ToDoService.createTodolist()
-    }
+	async createTodolist(req: Request, res: Response): Promise<void> {
+		const {title} = req.body;
+		const newtodolist = await this.ToDoService.createTodolist(title);
+		res.json(newtodolist.rows[0]);
+	}
 
-    deleteTodolist() {
-        return this.ToDoService.deleteTodolist()
-    }
+	async deleteTodolist(req: Request, res: Response): Promise<void> {
+		const id = req.params.id;
+		const deletedToDolist = await this.ToDoService.deleteTodolist(id);
+		res.json(deletedToDolist);
+	}
 
-    updateTodolist() {
-        return this.ToDoService.updateTodolist()
-    }
+	async updateTodolist(req: Request, res: Response): Promise<void> {
+		const id = req.params.id;
+		const {title} = req.body;
+		const updatedToDolist = await this.ToDoService.updateTodolist(id, title);
+		res.json(updatedToDolist);
+	}
 
-    getTasks() {
-        return this.ToDoService.getTasks()
-    }
+	async getTasks(req: Request, res: Response): Promise<void> {
+		const id = req.params.id;
+		const newTask = await this.ToDoService.getTasks(id);
+		res.json(newTask.rows);
+	}
 
-    deleteTask() {
-        return  this.ToDoService.deleteTask()
-    }
+	async deleteTask(req: Request, res: Response): Promise<void> {
+		const id = req.params.id;
+		const taskid = req.params.taskid;
+		const newTask = await this.ToDoService.deleteTask(id, taskid);
+		res.json(newTask.rows);
+	}
 
-    createTask() {
-        return this.ToDoService.createTask()
-    }
+	async createTask(req: Request, res: Response): Promise<void> {
+		const id = req.params.id;
+		const status = 0;
+		const {title} = req.body;
+		const newTask = await this.ToDoService.createTask(title, id, status);
+		res.json(newTask.rows[0]);
+	}
 
-    updateTask() {
-        return this.ToDoService.updateTask()
-    }
+	async updateTask(req: Request, res: Response): Promise<void> {
+		const id = req.params.id;
+		const taskid = req.params.taskid;
+		const {title, status} = req.body;
+		const updatedTask = await this.ToDoService.updateTask(title, status, id, taskid);
+		res.json(updatedTask.rows);
+	}
 }
-
-
 
 

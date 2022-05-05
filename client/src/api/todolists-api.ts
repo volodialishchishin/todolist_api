@@ -1,12 +1,12 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://localhost:8080',
 })
 
 export const todolistsAPI = {
     getTodolists() {
-        const promise = axios.get<TodolistType[]>('http://localhost:8000/todolists')
+        const promise = axios.get<TodolistType[]>('todolists')
         return promise;
     },
     createTodolist(title: string) {
@@ -14,7 +14,6 @@ export const todolistsAPI = {
         return promise;
     },
     deleteTodolist(id: string) {
-        console.log(id)
         const promise = instance.delete<ResponseType>(`todolists/${id}`);
         return promise;
     },

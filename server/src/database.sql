@@ -1,15 +1,25 @@
-CREATE TABLE todolists (
-    id serial PRIMARY KEY,
-    title VARCHAR ( 255 )
+CREATE TABLE todolists
+(
+    id    serial PRIMARY KEY,
+    title VARCHAR(255)
 );
 
-CREATE TABLE tasks(
-    title  VARCHAR (255),
-    status INT,
-    id serial PRIMARY KEY,
-    todoListId INTEGER ,
+CREATE TABLE tasks
+(
+    title      VARCHAR(255),
+    status     INT,
+    id         serial PRIMARY KEY,
+    todoListId INTEGER,
     FOREIGN KEY (todoListId) REFERENCES todolists (id) ON delete cascade
 );
+CREATE TABLE users
+(
+    user_id       serial PRIMARY KEY,
+    user_name     VARCHAR(255),
+    user_password VARCHAR(255),
+    token         VARCHAR(255)
+);
+
 
 
 -- CREATE TABLE staff (

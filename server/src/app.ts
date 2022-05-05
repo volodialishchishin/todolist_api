@@ -1,35 +1,49 @@
 import express, {Express} from 'express';
+import 'reflect-metadata';
 import {Server} from 'http';
-import {TodoRouter} from "./ToDoLists/todo.router.js";
-import cors from 'cors'
+import {ToDoRouter} from './ToDoLists/todo.router';
+import cors from 'cors';
+import {inject, injectable} from 'inversify';
+import {TYPES} from './types';
+import cookieParser from 'cookie-parser';
+
+@injectable()
 export class App  {
-    app: Express;
-    server: Server;
-    port: number;
+	app: Express;
+	server: Server;
+	port: number;
 
-    constructor(private TodoRouter: TodoRouter
-    ) {
-        this.app = express();
-        this.port = 8000;
-    }
+	constructor(
+        @inject(TYPES.ToDoRouter) private TodoRouter: ToDoRouter,
+	) {
+		this.app = express();
+	}
 
-    useRoutes(): void {
-        this.app.use('/', this.TodoRouter.router);
-    }
+	useRoutes(): void {
+		this.app.use('/', this.TodoRouter.router);
+	}
 
-    useJson():void{
-        this.app.use(express.json())
-    }
+	useJson():void{
+		this.app.use(express.json());
+	}
 
-    useCors() : void{
-        this.app.use(cors())
-    }
+	useCookie():void{
+		this.app.use(cookieParser());
+	}
 
-    init() {
-        this.useJson()
-        this.useCors()
-        this.useRoutes();
-        this.server = this.app.listen(this.port);
-        console.log('Server listening' + this.port)
-    }
+	useCors() : void{
+		this.app.use(cors({
+			credentials: true,
+			origin: process.env.CLIENT_URL
+		}));
+	}
+
+	init() {
+		this.useJson();
+		this.useCors();
+		this.useRoutes();
+		this.useCookie();
+		this.server = this.app.listen(process.env.PORT);
+		console.log('Server listening' + process.env.PORT);
+	}
 }
