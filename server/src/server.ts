@@ -8,6 +8,7 @@ import {ItodoRouter} from './ToDoLists/todo.router.interface';
 import {IToDoService} from './ToDoLists/todo.service.interface';
 import {ItodoRepository} from './ToDoLists/todo.repository.interface';
 import dotenv from 'dotenv';
+import { UserRouter } from './users/userRouter';
 dotenv.config();
 
 export interface IBootstrapReturn {
@@ -19,6 +20,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<ItodoRouter>(TYPES.ToDoRouter).to(ToDoRouter);
 	bind<IToDoService>(TYPES.ToDoService).to(ToDoService);
 	bind<ItodoRepository>(TYPES.ToDoRepository).to(ToDoRepository);
+	bind<UserRouter>(TYPES.UserRouter).to(UserRouter);
 	bind<App>(TYPES.Application).to(App);
 });
 

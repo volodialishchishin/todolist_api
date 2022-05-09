@@ -6,6 +6,7 @@ import cors from 'cors';
 import {inject, injectable} from 'inversify';
 import {TYPES} from './types';
 import cookieParser from 'cookie-parser';
+import { UserRouter } from './users/userRouter';
 
 @injectable()
 export class App  {
@@ -15,12 +16,14 @@ export class App  {
 
 	constructor(
         @inject(TYPES.ToDoRouter) private TodoRouter: ToDoRouter,
+        @inject(TYPES.UserRouter) private UserRouter: UserRouter,
 	) {
 		this.app = express();
 	}
 
 	useRoutes(): void {
 		this.app.use('/', this.TodoRouter.router);
+		this.app.use('/', this.UserRouter.router);
 	}
 
 	useJson():void{

@@ -1,4 +1,3 @@
-import {Request, Response} from 'express';
 import {ItodoRepository} from './todo.repository.interface';
 import {injectable} from 'inversify';
 import db from '../db';

@@ -8,8 +8,7 @@ import {TYPES} from '../types';
 @injectable()
 export class ToDoRouter extends BaseController implements ItodoRouter {
 	constructor(
-        @inject(TYPES.ToDoService) private ToDoService: ToDoService,
-	) {
+        @inject(TYPES.ToDoService) private ToDoService: ToDoService,) {
 		super();
 		this.bindRoutes([
 			{path: '/todolists', method: 'get', func: this.getTodoLists},
