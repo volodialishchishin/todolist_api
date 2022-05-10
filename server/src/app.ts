@@ -1,12 +1,14 @@
-import express, {Express} from 'express';
+import express, { Express, json } from 'express';
 import 'reflect-metadata';
 import {Server} from 'http';
-import {ToDoRouter} from './ToDoLists/todo.router';
+import {TodoController} from './ToDoLists/todo.controller';
 import cors from 'cors';
 import {inject, injectable} from 'inversify';
 import {TYPES} from './types';
 import cookieParser from 'cookie-parser';
-import { UserRouter } from './users/userRouter';
+import { UserController } from './users/users.controller';
+import { AuthMiddleware } from './middlewares/authMiddleware';
+import { IConfigService } from './config/config.service.interface';
 
 @injectable()
 export class App  {
@@ -15,38 +17,41 @@ export class App  {
 	port: number;
 
 	constructor(
-        @inject(TYPES.ToDoRouter) private TodoRouter: ToDoRouter,
-        @inject(TYPES.UserRouter) private UserRouter: UserRouter,
+        @inject(TYPES.ToDoRouter) private TodoRouter: TodoController,
+				@inject(TYPES.UserController) private userController: UserController,
+				@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		this.app = express();
 	}
 
 	useRoutes(): void {
 		this.app.use('/', this.TodoRouter.router);
-		this.app.use('/', this.UserRouter.router);
-	}
-
-	useJson():void{
-		this.app.use(express.json());
+		this.app.use('/', this.userController.router);
 	}
 
 	useCookie():void{
 		this.app.use(cookieParser());
 	}
 
+	useMiddleware(): void {
+		this.app.use(json());
+		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+		this.app.use(authMiddleware.execute.bind(authMiddleware));
+	}
+
 	useCors() : void{
 		this.app.use(cors({
 			credentials: true,
-			origin: process.env.CLIENT_URL
+			origin: this.configService.get('CLIENT_URL')
 		}));
 	}
 
 	init() {
-		this.useJson();
+		this.useMiddleware();
 		this.useCors();
 		this.useRoutes();
 		this.useCookie();
-		this.server = this.app.listen(process.env.PORT);
-		console.log('Server listening' + process.env.PORT);
+		this.server = this.app.listen(this.configService.get('PORT'));
+		console.log('Server listening' + this.configService.get('PORT'));
 	}
 }

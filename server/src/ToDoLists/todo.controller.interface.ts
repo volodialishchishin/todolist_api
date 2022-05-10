@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 
-export interface ItodoRouter {
+export interface ItodoController {
     getTodoLists: (req: Request, res: Response) => void
 
     createTodolist: (req: Request, res: Response) => void

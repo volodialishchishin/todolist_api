@@ -1,12 +1,12 @@
-import {Router} from 'express';
-import {IControllerRoute} from '../interfaces/router.interface';
-import {injectable} from 'inversify';
-// @ts-ignore
+import { Router } from 'express';
+import { IControllerRoute } from '../interfaces/router.interface';
+import { injectable } from 'inversify';
+
 @injectable()
-export abstract class BaseController  {
+export abstract class BaseController {
 	private readonly _router: Router;
 
-	protected constructor() {
+	constructor() {
 		this._router = Router();
 	}
 
@@ -16,8 +16,10 @@ export abstract class BaseController  {
 
 	bindRoutes(routes: IControllerRoute[]): void {
 		for (const route of routes) {
+			const middleware = route.middlewares?.map((m) => m.execute.bind(m));
 			const handler = route.func.bind(this);
-			this.router[route.method](route.path, handler);
+			const pipeline = middleware ? [...middleware, handler] : handler;
+			this.router[route.method](route.path, pipeline);
 		}
 	}
 }

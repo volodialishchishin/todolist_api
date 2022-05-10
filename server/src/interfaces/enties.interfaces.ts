@@ -1,12 +1,16 @@
 export interface TodolistType  {
     id: string
     title: string
-    addedDate: string
-    order: number
+    user_id:string
 }
 export interface TaskType {
-    title: string
-    status: number
-    id: string
-    todoListId: string
+    id:string
+    title:string
+    status:number
+    todoListId:string
+}
+export type UserModel = {
+    id: number
+    user_password: string
+    user_name: string
 }

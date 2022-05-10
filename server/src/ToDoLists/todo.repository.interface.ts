@@ -1,19 +1,22 @@
+import { QueryResult } from 'pg';
+import { TaskType, TodolistType } from '../interfaces/enties.interfaces';
+
 export class ItodoRepository {
-	InsertToDoList:(title:string) => Promise<any>;
+	InsertToDoList: (title: string, userId: string) => Promise<QueryResult<TodolistType>>;
 
-	selectToDoLists:()=> Promise<any>;
+	selectToDoLists: (user_id: string) => Promise<QueryResult<TodolistType>>;
 
-	deleteTodolist:(id:string)=> Promise<any>;
+	deleteTodolist: (id: string) => Promise<QueryResult<TodolistType>>;
 
-	updateTodolist:(id:string, title:string) => Promise<any>;
+	updateTodolist: (id: string, title: string) => Promise<QueryResult<TodolistType>>;
 
-	insertTask:(title:string, id:string, status:number) => Promise<any>;
+	insertTask: (title: string, id: string, status: number) => Promise<QueryResult<TaskType>>;
 
-	selectTasks: (id:string) => Promise<any>;
+	selectTasks: (id: string) => Promise<QueryResult<TaskType>>;
 
-	updateTask:(title:string, status:string, id:string, taskid:string) => Promise<any>;
+	updateTask: (title: string, status: string, id: string, taskid: string) => Promise<QueryResult<TaskType>>;
 
-	deleteTask:(id:string, taskid:string) => Promise<any>;
+	deleteTask: (id: string, taskid: string) => Promise<QueryResult<TaskType>>;
 }
 
 
