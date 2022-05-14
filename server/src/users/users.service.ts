@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
-import { IConfigService } from '../config/config.service.interface';
-import { TYPES } from '../types';
-import { UsersRepository } from './users.repository';
 import bcrypt from 'bcrypt';
-import { UserModel } from '../interfaces/enties.interfaces';
 import { QueryResult } from 'pg';
+import { IConfigService } from '../config/config.service.interface';
+import { UsersRepository } from './users.repository';
+import { UserModel } from '../interfaces/enties.interfaces';
 import { IUserService } from './users.service.interface';
+import { TYPES } from '../Injection/types';
 
 @injectable()
 export class UserService implements IUserService {
