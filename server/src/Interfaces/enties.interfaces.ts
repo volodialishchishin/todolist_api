@@ -10,7 +10,15 @@ export interface TaskType {
   todoListId:string
 }
 export type UserModel = {
-  id: number
+  id: string
   user_password: string
   user_name: string
 };
+
+export interface DbConfig {
+  user: string
+  password: string
+  host: string
+  port: number
+  database: string
+}

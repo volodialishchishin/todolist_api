@@ -1,7 +1,6 @@
-import { QueryResult } from 'pg';
-import { UserModel } from '../interfaces/enties.interfaces';
+import { UserModel } from '../Interfaces/enties.interfaces';
 
 export interface IUserService {
-  createUser: (name: string, password: string) => Promise<QueryResult<UserModel> | null>;
+  createUser: (name: string, password: string) => Promise<UserModel | boolean>;
   login: (name: string, password: string) => Promise<UserModel | boolean>;
 }

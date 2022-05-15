@@ -1,11 +1,15 @@
 export const TYPES = {
   Application: Symbol.for('Application'),
-  ToDoRouter: Symbol.for('ToDoRouter'),
+  ToDoController: Symbol.for('ToDoController'),
   ToDoService: Symbol.for('ToDoService'),
   ToDoRepository: Symbol.for('ToDoRepository'),
+  TasksController: Symbol.for('TasksController'),
+  TasksService: Symbol.for('TasksService'),
+  TasksRepository: Symbol.for('TasksRepository'),
   UserController: Symbol.for('UserController'),
   UserService: Symbol.for('UserService'),
   ExeptionFilter: Symbol.for('ExeptionFilter'),
   ConfigService: Symbol.for('ConfigService'),
   UsersRepository: Symbol.for('UsersRepository'),
+  DataBase: Symbol.for('DataBase'),
 };

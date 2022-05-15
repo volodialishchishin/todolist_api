@@ -1,10 +1,7 @@
 import { Container } from 'inversify';
-import dotenv from 'dotenv';
 import { App } from './app';
 import { appBindings } from './Injection/injection';
 import { TYPES } from './Injection/types';
-
-dotenv.config();
 
 export interface IBootstrapReturn {
   appContainer: Container;
