@@ -1,5 +1,5 @@
 import { QueryResult } from 'pg';
-import { TodolistType } from '../Interfaces/enties.interfaces';
+import { TodolistType } from '../../Interfaces/enties.interfaces';
 
 export class IToDoRepository {
   InsertToDoList: (title: string, userId: string) => Promise<QueryResult<TodolistType>>;

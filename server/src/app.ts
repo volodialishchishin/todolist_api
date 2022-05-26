@@ -68,8 +68,8 @@ export class App {
     this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
   }
 
-  init() {
-    this.useDB();
+  async init() {
+    await this.useDB();
     this.useMiddleware();
     this.useCors();
     this.useRoutes();
@@ -77,5 +77,9 @@ export class App {
     this.useExeptionFilters();
     this.server = this.app.listen(this.configService.get('PORT'));
     console.log(`Server listening${this.configService.get('PORT')}`);
+  }
+
+  public close(): void {
+    this.server.close();
   }
 }

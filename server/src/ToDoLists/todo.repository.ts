@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { QueryResult } from 'pg';
-import { IToDoRepository } from './todo.repository.interface';
 import { TodolistType } from '../Interfaces/enties.interfaces';
 import { TYPES } from '../Injection/types';
 import { DataBase } from '../database/db';
+import { IToDoRepository } from './interfaces/todo.repository.interface';
 
 @injectable()
 export class ToDoRepository implements IToDoRepository {

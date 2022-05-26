@@ -1,5 +1,5 @@
 import { QueryResult } from 'pg';
-import { TaskType } from '../Interfaces/enties.interfaces';
+import { TaskType } from '../../Interfaces/enties.interfaces';
 
 export class ITasksRepository {
   insertTask: (title: string, id: string, status: number) => Promise<QueryResult<TaskType>>;

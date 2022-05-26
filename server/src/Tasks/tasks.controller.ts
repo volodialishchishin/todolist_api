@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { BaseController } from '../common/base.controller';
-import { ITasksService } from './tasks.service.interface';
-import { ITasksController } from './tasks.controller.interface';
+import { ITasksService } from './interfaces/tasks.service.interface';
+import { ITasksController } from './interfaces/tasks.controller.interface';
 import { TYPES } from '../Injection/types';
 import { HTTPError } from '../errors/http-error.class';
 
@@ -22,11 +22,12 @@ export class TasksController extends BaseController implements ITasksController 
 
   async getTasks(req: Request, res: Response, next:NextFunction): Promise<void> {
     const { id } = req.params;
-    const tasks = await this.TasksService.getTasks(id);
-    if (!tasks) {
-      return next(new HTTPError(400, 'This todolist dont have any tasks'));
+    try {
+      const tasks = await this.TasksService.getTasks(id);
+      res.json(tasks);
+    } catch (e) {
+      next(HTTPError.NoTodo());
     }
-    res.json(tasks);
   }
 
   async deleteTask(req: Request, res: Response): Promise<void> {
@@ -40,21 +41,23 @@ export class TasksController extends BaseController implements ITasksController 
     const { id } = req.params;
     const status = 0;
     const { title } = req.body;
-    const newTask = await this.TasksService.createTask(title, id, status);
-    if (!newTask) {
-      return next(new HTTPError(400, 'No title'));
+    try {
+      const newTask = await this.TasksService.createTask(title, id, status);
+      res.json(newTask);
+    } catch (e) {
+      next(HTTPError.NoTitle());
     }
-    res.json(newTask);
   }
 
   async updateTask(req: Request, res: Response, next:NextFunction): Promise<void> {
     const { id } = req.params;
     const { taskid } = req.params;
     const { title, status } = req.body;
-    const updatedTask = await this.TasksService.updateTask(title, status, id, taskid);
-    if (!updatedTask) {
-      return next(new HTTPError(401, 'No title or status', 'login'));
+    try {
+      const updatedTask = await this.TasksService.updateTask(title, status, id, taskid);
+      res.json(updatedTask);
+    } catch (e) {
+      next(HTTPError.NoTitle());
     }
-    res.json(updatedTask);
   }
 }

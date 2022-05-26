@@ -1,12 +1,29 @@
 export class HTTPError extends Error {
-  statusCode: number;
+  status:number;
 
-  context?: string;
-
-  constructor(statusCode: number, message: string, context?: string) {
-    super(message);
-    this.statusCode = statusCode;
+  constructor(status:number, message:string) {
+    super();
+    this.status = status;
     this.message = message;
-    this.context = context;
+  }
+
+  static badRequest() {
+    return new HTTPError(404, 'badRequest');
+  }
+
+  static internal() {
+    return new HTTPError(500, 'internal');
+  }
+
+  static forbidden() {
+    return new HTTPError(403, 'authorization error');
+  }
+
+  static NoTitle() {
+    return new HTTPError(421, 'No title');
+  }
+
+  static NoTodo() {
+    return new HTTPError(420, 'No todo');
   }
 }

@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import { IToDoRepository } from '../todo.repository.interface';
-import { IToDoService } from '../todo.service.interface';
 import { TYPES } from '../../Injection/types';
 import { ToDoService } from '../todo.service';
 import { TodolistType } from '../../Interfaces/enties.interfaces';
+import { IToDoRepository } from '../interfaces/todo.repository.interface';
+import { IToDoService } from '../interfaces/todo.service.interface';
 
 const todoRepositoryMock: IToDoRepository = {
   selectToDoLists: jest.fn(),
@@ -25,7 +25,8 @@ beforeAll(() => {
   todoServ = container.get<IToDoService>(TYPES.ToDoService);
 });
 
-let todolist: TodolistType | boolean;
+let toDoList: TodolistType;
+let toDoLists: TodolistType[];
 
 describe('Todo Service', () => {
   it('createTodo Valid', async () => {
@@ -42,11 +43,89 @@ describe('Todo Service', () => {
         }
       ),
     );
-    todolist = await todoServ.createTodolist('Volodia', '1');
-    if (typeof todolist !== 'boolean') {
-      expect(todolist.title).toEqual('Volodia');
-      expect(todolist.id).toEqual('2');
-      expect(todolist.user_id).toEqual('1');
-    }
+    toDoList = await todoServ.createTodolist('Volodia', '1');
+    expect(toDoList.title).toEqual('Volodia');
+    expect(toDoList.id).toEqual('2');
+    expect(toDoList.user_id).toEqual('1');
+  });
+
+  it('createTodo invalid', async () => {
+    todoRep.InsertToDoList = jest.fn().mockImplementationOnce(
+      (title:string, userID:string): { rows: { id: string, title: string, user_id:string }[] } => (
+        {
+          rows: [
+            {
+              title,
+              user_id: userID,
+              id: '2',
+            },
+          ],
+        }
+      ),
+    );
+    await expect(async () => todoServ.createTodolist('', '1')).rejects.toThrowError();
+  });
+
+  it('Get todo valid', async () => {
+    todoRep.selectToDoLists = jest.fn().mockImplementationOnce(
+      (userID:string): { rows: { id: string, title: string, user_id:string }[] } => (
+        {
+          rows: [
+            {
+              title: 'fsdfsdf',
+              user_id: userID,
+              id: '2',
+            },
+          ],
+        }
+      ),
+    );
+    toDoLists = await todoServ.getTodolists('1');
+    expect(toDoLists.length).toEqual(1);
+  });
+
+  it('Get todo  invalid', async () => {
+    todoRep.selectToDoLists = jest.fn().mockImplementationOnce(
+      (): { rows: { id: string, title: string, user_id:string }[] } => (
+        {
+          rows: [
+          ],
+        }
+      ),
+    );
+    toDoLists = await todoServ.getTodolists('1');
+    expect(toDoLists.length).toEqual(1);
+  });
+
+  it('delete todo', async () => {
+    todoRep.deleteTodolist = jest.fn().mockImplementationOnce(
+      (): { rows: { id: string, title: string, user_id:string }[] } => (
+        {
+          rows: [
+          ],
+        }
+      ),
+    );
+    toDoLists = await todoServ.deleteTodolist('1');
+    expect(toDoLists.length).toEqual(0);
+  });
+
+  it('update todo', async () => {
+    todoRep.updateTodolist = jest.fn().mockImplementationOnce(
+      (id:string, title:string): { rows: { id: string, title: string, user_id:string }[] } => (
+        {
+          rows: [
+            {
+              title,
+              user_id: '1',
+              id,
+            },
+          ],
+        }
+      ),
+    );
+    toDoList = await todoServ.updateTodolist('1', 'zdarova');
+    expect(toDoList.title).toEqual('zdarova');
+    expect(toDoList.title).toEqual('1');
   });
 });

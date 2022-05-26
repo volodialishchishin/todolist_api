@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { BaseController } from '../common/base.controller';
-import { IToDoService } from './todo.service.interface';
-import { IToDoController } from './todo.controller.interface';
 import { TYPES } from '../Injection/types';
 import { HTTPError } from '../errors/http-error.class';
+import { IToDoController } from './interfaces/todo.controller.interface';
+import { IToDoService } from './interfaces/todo.service.interface';
 
 @injectable()
 export class ToDoController extends BaseController implements IToDoController {
@@ -20,22 +20,24 @@ export class ToDoController extends BaseController implements IToDoController {
     ]);
   }
 
-  async getTodoLists(req: Request, res: Response, next:NextFunction): Promise<any> {
+  async getTodoLists(req: Request, res: Response, next:NextFunction): Promise<void> {
     const { context: { id } } = req;
-    const todolists = await this.ToDoService.getTodolists(id);
-    if (!todolists) {
-      return next(new HTTPError(400, 'User dont have any todolists'));
+    try {
+      const todolists = await this.ToDoService.getTodolists(id);
+      res.status(200).json(todolists);
+    } catch (e) {
+      next(HTTPError.NoTodo());
     }
-    res.status(200).json(todolists);
   }
 
   async createTodolist(req: Request, res: Response, next:NextFunction): Promise<void> {
     const { title, userId } = req.body;
-    const newtodolist = await this.ToDoService.createTodolist(title, userId);
-    if (!newtodolist) {
-      return next(new HTTPError(401, 'Please enter title', 'login'));
+    try {
+      const newToDoList = await this.ToDoService.createTodolist(title, userId);
+      res.status(201).json(newToDoList);
+    } catch (e) {
+      next(HTTPError.NoTitle());
     }
-    res.status(201).json(newtodolist);
   }
 
   async deleteTodolist(req: Request, res: Response): Promise<void> {
@@ -47,10 +49,11 @@ export class ToDoController extends BaseController implements IToDoController {
   async updateTodolist(req: Request, res: Response, next:NextFunction): Promise<void> {
     const { id } = req.params;
     const { title } = req.body;
-    const updatedToDolist = await this.ToDoService.updateTodolist(id, title);
-    if (!updatedToDolist) {
-      return next(new HTTPError(401, 'Please enter title', 'login'));
+    try {
+      const updatedToDolist = await this.ToDoService.updateTodolist(id, title);
+      res.status(200).json(updatedToDolist);
+    } catch (e) {
+      next(HTTPError.NoTitle());
     }
-    res.status(200).json(updatedToDolist);
   }
 }

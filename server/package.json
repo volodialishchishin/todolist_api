@@ -7,10 +7,12 @@
     "start": "node dist/server/src/server.js ",
     "dev": "nodemon",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "test:e2e": "jest --config jest.e2e.config.ts"
   },
   "license": "ISC",
   "dependencies": {
+    "@types/supertest": "^2.0.12",
     "bcrypt": "^5.0.1",
     "class-validator": "^0.13.2",
     "cookie-parser": "^1.4.6",
@@ -22,6 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
+    "supertest": "^6.2.3",
+    "test": "^0.6.0",
     "ts-jest": "^28.0.2",
     "tslog": "^3.2.2"
   },

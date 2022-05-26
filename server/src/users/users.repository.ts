@@ -1,10 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { QueryResult } from 'pg';
-
 import { UserModel } from '../Interfaces/enties.interfaces';
-import { IUserRepository } from './users.repository.interface';
 import { TYPES } from '../Injection/types';
 import { DataBase } from '../database/db';
+import { IUserRepository } from './interfaces/users.repository.interface';
 
 @injectable()
 export class UsersRepository implements IUserRepository {

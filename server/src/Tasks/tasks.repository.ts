@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { QueryResult } from 'pg';
-import { ITasksRepository } from './tasks.repository.interface';
+import { ITasksRepository } from './interfaces/tasks.repository.interface';
 import { TaskType } from '../Interfaces/enties.interfaces';
 import { TYPES } from '../Injection/types';
 import { DataBase } from '../database/db';
