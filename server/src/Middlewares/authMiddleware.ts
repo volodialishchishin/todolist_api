@@ -11,7 +11,7 @@ export class AuthMiddleware implements IMiddleware {
           return next(err);
         } if (typeof payload === 'string') {
           req.context = {
-            id: payload,
+            userId: payload,
           };
           next();
         }

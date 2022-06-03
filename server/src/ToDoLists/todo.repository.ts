@@ -12,7 +12,8 @@ export class ToDoRepository implements IToDoRepository {
   ) {
   }
 
-  async InsertToDoList(title: string, userId: string): Promise<any> {
+  async InsertToDoList(title: string, userId: string): Promise<QueryResult<TodolistType>> {
+    console.log(userId)
     return this.db.dbInit().query('INSERT INTO todolists(title,user_id) values($1,$2) RETURNING * ', [title, userId]);
   }
 
@@ -20,11 +21,11 @@ export class ToDoRepository implements IToDoRepository {
     return this.db.dbInit().query('SELECT * FROM todolists where user_id = $1', [userId]);
   }
 
-  async deleteTodolist(id: string): Promise<QueryResult<TodolistType>> {
-    return this.db.dbInit().query('DELETE FROM todolists WHERE id = $1; ', [id]);
+  async deleteTodolist(id: string, userId:string): Promise<QueryResult<TodolistType>> {
+    return this.db.dbInit().query('DELETE FROM todolists WHERE id = $1 and user_id =$2 ; ', [id, userId]);
   }
 
-  async updateTodolist(id: string, title: string): Promise<QueryResult<TodolistType>> {
-    return this.db.dbInit().query('UPDATE todolists SET title=$2 WHERE id = $1 RETURNING *', [id, title]);
+  async updateTodolist(id: string, title: string, userId:string): Promise<QueryResult<TodolistType>> {
+    return this.db.dbInit().query('UPDATE todolists SET title=$2 WHERE id = $1 and user_id = $3 RETURNING *', [id, title, userId]);
   }
 }

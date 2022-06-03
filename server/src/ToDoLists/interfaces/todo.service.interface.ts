@@ -6,8 +6,8 @@ export interface IToDoService {
 
   createTodolist: (title: string, userId: string) => Promise<TodolistType>;
 
-  deleteTodolist: (id: string) => Promise<TodolistType[]>;
+  deleteTodolist: (id: string, userId:string) => Promise<TodolistType[]>;
 
-  updateTodolist: (id: string, title: string) => Promise<TodolistType>;
+  updateTodolist: (id: string, title: string, userId:string) => Promise<TodolistType>;
 
 }

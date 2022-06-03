@@ -26,16 +26,16 @@ export class ToDoService implements IToDoService {
     return todolist.rows[0];
   }
 
-  async deleteTodolist(userId: string): Promise<TodolistType[]> {
-    const todolist = await this.ToDoRepository.deleteTodolist(userId);
+  async deleteTodolist(id: string, userId:string): Promise<TodolistType[]> {
+    const todolist = await this.ToDoRepository.deleteTodolist(id, userId);
     return todolist.rows;
   }
 
-  async updateTodolist(id: string, title: string): Promise<TodolistType> {
+  async updateTodolist(id: string, title: string,userId:string): Promise<TodolistType> {
     if (!title) {
       throw new Error();
     }
-    const todolist = await this.ToDoRepository.updateTodolist(id, title);
+    const todolist = await this.ToDoRepository.updateTodolist(id, title, userId);
     return todolist.rows[0];
   }
 }

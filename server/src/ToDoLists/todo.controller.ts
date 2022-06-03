@@ -20,37 +20,40 @@ export class ToDoController extends BaseController implements IToDoController {
     ]);
   }
 
-  async getTodoLists(req: Request, res: Response, next:NextFunction): Promise<void> {
-    const { context: { id } } = req;
+  async getTodoLists(req: Request, res: Response, next:NextFunction): Promise<any> {
+    const { context: { userId } } = req;
     try {
-      const todolists = await this.ToDoService.getTodolists(id);
-      res.status(200).json(todolists);
+      const toDoLists = await this.ToDoService.getTodolists(userId);
+      res.status(200).json(toDoLists);
     } catch (e) {
-      next(HTTPError.NoTodo());
+       next(HTTPError.NoTodo());
     }
   }
 
-  async createTodolist(req: Request, res: Response, next:NextFunction): Promise<void> {
-    const { title, userId } = req.body;
+  async createTodolist(req: Request, res: Response, next:NextFunction): Promise<any> {
+    const { title } = req.body;
+    const { context: { userId } } = req;
     try {
       const newToDoList = await this.ToDoService.createTodolist(title, userId);
       res.status(201).json(newToDoList);
     } catch (e) {
-      next(HTTPError.NoTitle());
+       next(HTTPError.NoTitle());
     }
   }
 
   async deleteTodolist(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    const deletedToDolist = await this.ToDoService.deleteTodolist(id);
+    const { context: { userId } } = req;
+    const deletedToDolist = await this.ToDoService.deleteTodolist(id,userId);
     res.status(200).json(deletedToDolist);
   }
 
   async updateTodolist(req: Request, res: Response, next:NextFunction): Promise<void> {
     const { id } = req.params;
     const { title } = req.body;
+    const { context: { userId } } = req;
     try {
-      const updatedToDolist = await this.ToDoService.updateTodolist(id, title);
+      const updatedToDolist = await this.ToDoService.updateTodolist(id, title, userId);
       res.status(200).json(updatedToDolist);
     } catch (e) {
       next(HTTPError.NoTitle());

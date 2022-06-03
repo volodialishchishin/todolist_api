@@ -6,7 +6,7 @@ export class IToDoRepository {
 
   selectToDoLists: (user_id: string) => Promise<QueryResult<TodolistType>>;
 
-  deleteTodolist: (id: string) => Promise<QueryResult<TodolistType>>;
+  deleteTodolist: (id: string, userId:string) => Promise<QueryResult<TodolistType>>;
 
-  updateTodolist: (id: string, title: string) => Promise<QueryResult<TodolistType>>;
+  updateTodolist: (id: string, title: string, userId:string) => Promise<QueryResult<TodolistType>>;
 }
