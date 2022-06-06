@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import { IConfigService } from '../../config/config.service.interface';
-import { IUserService } from '../interfaces/users.service.interface';
+import { IConfigService } from '../../Config/config.service.interface';
+import { IUserService } from '../Interfaces/users.service.interface';
 import { TYPES } from '../../Injection/types';
 import { UserService } from '../users.service';
 import { UserModel } from '../../Interfaces/enties.interfaces';
-import { IUserRepository } from '../interfaces/users.repository.interface';
+import { IUserRepository } from '../Interfaces/users.repository.interface';
 
 describe('User Service', () => {
   const ConfigServiceMock: IConfigService = {

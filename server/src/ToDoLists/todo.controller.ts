@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
-import { BaseController } from '../common/base.controller';
+import { BaseController } from '../Common/base.controller';
 import { TYPES } from '../Injection/types';
-import { HTTPError } from '../errors/http-error.class';
-import { IToDoController } from './interfaces/todo.controller.interface';
-import { IToDoService } from './interfaces/todo.service.interface';
+import { HTTPError } from '../Errors/http-error.class';
+import { IToDoController } from './Interfaces/todo.controller.interface';
+import { IToDoService } from './Interfaces/todo.service.interface';
 
 @injectable()
 export class ToDoController extends BaseController implements IToDoController {

@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { TodolistType } from '../Interfaces/enties.interfaces';
 import { TYPES } from '../Injection/types';
-import { IToDoRepository } from './interfaces/todo.repository.interface';
-import { IToDoService } from './interfaces/todo.service.interface';
+import { IToDoRepository } from './Interfaces/todo.repository.interface';
+import { IToDoService } from './Interfaces/todo.service.interface';
 
 @injectable()
 export class ToDoService implements IToDoService {
@@ -22,12 +22,12 @@ export class ToDoService implements IToDoService {
     if (!title) {
       throw new Error();
     }
-    const todolist = await this.ToDoRepository.InsertToDoList(title, userId);
+    const todolist = await this.ToDoRepository.insertToDoList(title, userId);
     return todolist.rows[0];
   }
 
   async deleteTodolist(id: string, userId:string): Promise<TodolistType[]> {
-    const todolist = await this.ToDoRepository.deleteTodolist(id, userId);
+    const todolist = await this.ToDoRepository.deleteToDolist(id, userId);
     return todolist.rows;
   }
 
@@ -35,7 +35,7 @@ export class ToDoService implements IToDoService {
     if (!title) {
       throw new Error();
     }
-    const todolist = await this.ToDoRepository.updateTodolist(id, title, userId);
+    const todolist = await this.ToDoRepository.updateToDolist(id, title, userId);
     return todolist.rows[0];
   }
 }

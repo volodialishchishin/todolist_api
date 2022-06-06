@@ -3,8 +3,8 @@ import { Container } from 'inversify';
 import { TYPES } from '../../Injection/types';
 import { TasksService } from '../tasks.service';
 import { TaskType } from '../../Interfaces/enties.interfaces';
-import { ITasksRepository } from '../interfaces/tasks.repository.interface';
-import { ITasksService } from '../interfaces/tasks.service.interface';
+import { ITasksRepository } from '../Interfaces/tasks.repository.interface';
+import { ITasksService } from '../Interfaces/tasks.service.interface';
 
 const tasksRepositoryMock: ITasksRepository = {
   selectTasks: jest.fn(),

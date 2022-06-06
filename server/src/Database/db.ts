@@ -1,7 +1,7 @@
 import Pool from 'pg';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../Injection/types';
-import { IConfigService } from '../config/config.service.interface';
+import { IConfigService } from '../Config/config.service.interface';
 
 @injectable()
 export class DataBase {

@@ -22,5 +22,6 @@ CREATE TABLE tasks
     title      VARCHAR(255),
     status     INT,
     todoListId INTEGER,
+    userid INTEGER ,
     FOREIGN KEY (todoListId) REFERENCES todolists (id) ON delete cascade
 );

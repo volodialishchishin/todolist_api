@@ -12,7 +12,7 @@ export class ConfigService implements IConfigService {
     if (result.error) {
       console.log('.env was not found');
     } else {
-      console.log('config was created');
+      console.log('Config was created');
       this.config = result.parsed as DotenvParseOutput;
     }
   }

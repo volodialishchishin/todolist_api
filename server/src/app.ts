@@ -4,14 +4,14 @@ import { Server } from 'http';
 import cors from 'cors';
 import { inject, injectable } from 'inversify';
 import cookieParser from 'cookie-parser';
-import { UserController } from './users/users.controller';
+import { UserController } from './Users/users.controller';
 import { AuthMiddleware } from './Middlewares/authMiddleware';
-import { IConfigService } from './config/config.service.interface';
+import { IConfigService } from './Config/config.service.interface';
 import { TYPES } from './Injection/types';
 import { ToDoController } from './ToDoLists/todo.controller';
 import { TasksController } from './Tasks/tasks.controller';
-import { DataBase } from './database/db';
-import { IExeptionFilter } from './errors/exeption.filter.interface';
+import { DataBase } from './Database/db';
+import { IExeptionFilter } from './Errors/exeption.filter.interface';
 
 @injectable()
 export class App {

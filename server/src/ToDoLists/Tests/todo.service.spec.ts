@@ -3,8 +3,8 @@ import { Container } from 'inversify';
 import { TYPES } from '../../Injection/types';
 import { ToDoService } from '../todo.service';
 import { TodolistType } from '../../Interfaces/enties.interfaces';
-import { IToDoRepository } from '../interfaces/todo.repository.interface';
-import { IToDoService } from '../interfaces/todo.service.interface';
+import { IToDoRepository } from '../Interfaces/todo.repository.interface';
+import { IToDoService } from '../Interfaces/todo.service.interface';
 
 const todoRepositoryMock: IToDoRepository = {
   selectToDoLists: jest.fn(),

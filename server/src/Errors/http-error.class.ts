@@ -1,14 +1,14 @@
 export class HTTPError extends Error {
-  status:number;
+  statusCode:number;
 
-  constructor(status:number, message:string) {
-    super();
-    this.status = status;
+  constructor(statusCode: number, message: string) {
+    super(message);
+    this.statusCode = statusCode;
     this.message = message;
   }
 
   static badRequest() {
-    return new HTTPError(404, 'badRequest');
+    return new HTTPError(400, 'badRequest');
   }
 
   static internal() {
