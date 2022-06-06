@@ -12,4 +12,5 @@ export const TYPES = {
   ConfigService: Symbol.for('ConfigService'),
   UsersRepository: Symbol.for('UsersRepository'),
   DataBase: Symbol.for('DataBase'),
+  ILogger: Symbol.for('ILogger'),
 };

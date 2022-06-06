@@ -1,32 +1,35 @@
 import { ContainerModule, interfaces } from 'inversify';
 import { App } from '../app';
 import { TYPES } from './types';
-import { ToDoController } from '../ToDoLists/todo.controller';
-import { ToDoService } from '../ToDoLists/todo.service';
-import { ToDoRepository } from '../ToDoLists/todo.repository';
-import { UserController } from '../Users/users.controller';
-import { UserService } from '../Users/users.service';
+import { ToDoController } from '../Entities/ToDoLists/todo.controller';
+import { ToDoService } from '../Entities/ToDoLists/todo.service';
+import { ToDoRepository } from '../Entities/ToDoLists/todo.repository';
+import { UserController } from '../Entities/Users/users.controller';
+import { UserService } from '../Entities/Users/users.service';
 import { IConfigService } from '../Config/config.service.interface';
 import { ConfigService } from '../Config/config.service';
-import { UsersRepository } from '../Users/users.repository';
-import { ITasksController } from '../Tasks/Interfaces/tasks.controller.interface';
-import { TasksController } from '../Tasks/tasks.controller';
-import { ITasksService } from '../Tasks/Interfaces/tasks.service.interface';
-import { TasksService } from '../Tasks/tasks.service';
-import { ITasksRepository } from '../Tasks/Interfaces/tasks.repository.interface';
-import { IUserService } from '../Users/Interfaces/users.service.interface';
-import { TasksRepository } from '../Tasks/tasks.repository';
-import { DataBase } from '../Database/db';
-import { ExeptionFilter } from '../Errors/exeption.filter';
-import { IExeptionFilter } from '../Errors/exeption.filter.interface';
-import { IUserController } from '../Users/Interfaces/users.controller.interface';
-import { IUserRepository } from '../Users/Interfaces/users.repository.interface';
-import { IToDoService } from '../ToDoLists/Interfaces/todo.service.interface';
-import { IToDoRepository } from '../ToDoLists/Interfaces/todo.repository.interface';
-import { IToDoController } from '../ToDoLists/Interfaces/todo.controller.interface';
+import { UsersRepository } from '../Entities/Users/users.repository';
+import { ITasksController } from '../Entities/Tasks/Interfaces/tasks.controller.interface';
+import { TasksController } from '../Entities/Tasks/tasks.controller';
+import { ITasksService } from '../Entities/Tasks/Interfaces/tasks.service.interface';
+import { TasksService } from '../Entities/Tasks/tasks.service';
+import { ITasksRepository } from '../Entities/Tasks/Interfaces/tasks.repository.interface';
+import { IUserService } from '../Entities/Users/Interfaces/users.service.interface';
+import { TasksRepository } from '../Entities/Tasks/tasks.repository';
+import { DataBase } from '../Common/db';
+import { ErrorMiddleware } from '../Middlewares/errorMiddleware';
+import { IExeptionFilter } from '../Middlewares/errorMiddleware.interface';
+import { IUserController } from '../Entities/Users/Interfaces/users.controller.interface';
+import { IUserRepository } from '../Entities/Users/Interfaces/users.repository.interface';
+import { IToDoService } from '../Entities/ToDoLists/Interfaces/todo.service.interface';
+import { IToDoRepository } from '../Entities/ToDoLists/Interfaces/todo.repository.interface';
+import { IToDoController } from '../Entities/ToDoLists/Interfaces/todo.controller.interface';
+import {LoggerService} from "../Common/logger/logger.service";
+import {ILogger} from "../Common/logger/logger.interface";
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<App>(TYPES.Application).to(App);
+  bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
 
   bind<IToDoController>(TYPES.ToDoController).to(ToDoController);
   bind<IToDoService>(TYPES.ToDoService).to(ToDoService);
@@ -42,5 +45,5 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 
   bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
   bind<DataBase>(TYPES.DataBase).to(DataBase).inSingletonScope();
-  bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
+  bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ErrorMiddleware);
 });
