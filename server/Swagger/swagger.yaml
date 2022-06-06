@@ -4,9 +4,11 @@ info:
   title: "To do api"
 host: "localhost:8080"
 tags:
-  - name: "todolist"
-    description: "To do lists"
-  - name: "user"
+  - name: "Todolist"
+    description: "Operations with to-do lists"
+  - name: "Tasks"
+    description: "Operations with tasks"
+  - name: "User"
     description: "Operations about user"
 schemes:
   - "http"
@@ -15,7 +17,7 @@ paths:
   /todolists:
     post:
       tags:
-        - "todolist"
+        - "Todolist"
       summary: "Add new todo"
       parameters:
         - in: "body"
@@ -25,50 +27,52 @@ paths:
             $ref: "#/definitions/Todolist"
       responses:
         "201":
-          description: "Success"
+          description: "Created"
+          schema:
+            $ref: "#/definitions/TodolistResponse"
         "421":
-          description: "No title"
+          description: "No title or status"
+          schema:
+            $ref: "#/definitions/Error"
       security:
         - Bearer: []
     get:
       tags:
-        - "todolist"
+        - "Todolist"
       summary: "Get todos"
       responses:
         "200":
           description: "Success"
+          schema:
+            $ref: "#/definitions/TodolistResponse"
         "204":
           description: "No todo"
+          schema:
+            $ref: "#/definitions/Error"
       security:
         - Bearer: []
-  /todolists/{todolist_id}:
+  /todolists/{id}:
     delete:
       tags:
-        - "todolist"
+        - "Todolist"
       summary: "Delete todo"
-      description: "Returns a single pet"
-      operationId: "getPetById"
-      produces:
-        - "application/xml"
-        - "application/json"
       parameters:
-        - name: "todolist_id"
+        - name: "id"
           in: "path"
           required: true
           type: "integer"
           format: "int64"
       responses:
         "200":
-          description: "successful operation"
+          description: "Success"
       security:
         - Bearer: []
     put:
       tags:
-        - "todolist"
+        - "Todolist"
       summary: "Update  todo"
-      description: ""
       parameters:
-        - name: "todolist_id"
+        - name: "id"
           in: "path"
           required: true
           type: "integer"
@@ -81,17 +85,21 @@ paths:
       responses:
         "421":
           description: "No title"
+          schema:
+            $ref: "#/definitions/Error"
         "200":
-          description: "success"
+          description: "Success"
+          schema:
+            $ref: "#/definitions/TodolistResponse"
       security:
         - Bearer: []
-  /todolists/{todolist_id}/tasks:
+  /todolists/{id}/tasks:
     post:
       tags:
-        - "todolist"
+        - "Tasks"
       summary: "Add task"
       parameters:
-        - name: "todolist_id"
+        - name: "id"
           in: "path"
           required: true
           type: "integer"
@@ -103,39 +111,44 @@ paths:
             $ref: "#/definitions/Task"
       responses:
         "200":
-          description: "successful operation"
-        "421":
-          description: "successful operation"
+          description: "Success"
           schema:
-            $ref: "#/definitions/ApiResponse"
+            $ref: "#/definitions/TaskResponse"
+        "421":
+          description: "No title"
+          schema:
+            $ref: "#/definitions/Error"
       security:
         - Bearer: []
     get:
       tags:
-        - "todolist"
+        - "Tasks"
       summary: "Get tasks"
+      description: "Status key-value: 0 - New, 1 - Active, 2 - Done "
       parameters:
-        - name: "todolist_id"
+        - name: "id"
           in: "path"
           required: true
           type: "integer"
           format: "int64"
       responses:
         "200":
-          description: "successful operation"
+          description: "Success"
+          schema:
+            $ref: "#/definitions/TaskResponse"
         "204":
           description: "No todo"
           schema:
-            $ref: "#/definitions/ApiResponse"
+            $ref: "#/definitions/Error"
       security:
         - Bearer: []
-  /todolists/{todolist_id}/tasks/{task_id}:
+  /todolists/{id}/tasks/{task_id}:
     delete:
       tags:
-        - "todolist"
+        - "Tasks"
       summary: "Delete task"
       parameters:
-        - name: "todolist_id"
+        - name: "id"
           in: "path"
           required: true
           type: "integer"
@@ -147,15 +160,16 @@ paths:
           format: "int64"
       responses:
         "200":
-          description: "successful delet"
+          description: "Success"
       security:
         - Bearer: []
     put:
       tags:
-        - "todolist"
+        - "Tasks"
       summary: "Update task"
+      description: "Status key-value: 0 - New, 1 - Active, 2 - Done "
       parameters:
-        - name: "todolist_id"
+        - name: "id"
           in: "path"
           required: true
           type: "integer"
@@ -173,20 +187,20 @@ paths:
       responses:
         "200":
           description: "successful operation"
+          schema:
+            $ref: "#/definitions/TaskResponse"
         "421":
           description: "No title"
+          schema:
+            $ref: "#/definitions/Error"
       security:
         - Bearer: []
   /register:
     post:
       tags:
-        - "user"
+        - "User"
       summary: "Create user"
-      description: "This can only be done by the logged in user."
-      operationId: "createUser"
-      produces:
-        - "application/xml"
-        - "application/json"
+      description: "A password should be alphanumeric.First letter of the password should be capital.Password must contain a special character (@, $, !, &, etc).Password length must be greater than 8 characters"
       parameters:
         - in: "body"
           name: "body"
@@ -196,17 +210,22 @@ paths:
             $ref: "#/definitions/User"
       responses:
         "403":
-          description: "forbidden"
+          description: "User exist"
+          schema:
+            $ref: "#/definitions/Error"
+        "421":
+          description: "Invalid password"
+          schema:
+            $ref: "#/definitions/Error"
         "200":
-          description: "success"
+          description: "Success"
+          schema:
+            $ref: "#/definitions/UserResponse"
   /login:
     post:
       tags:
-        - "user"
-      summary: "Create user"
-      produces:
-        - "application/xml"
-        - "application/json"
+        - "User"
+      summary: "User login"
       parameters:
         - in: "body"
           name: "body"
@@ -215,10 +234,14 @@ paths:
           schema:
             $ref: "#/definitions/User"
       responses:
-        "403":
-          description: "invalid data"
+        "401":
+          description: "Invalid password or name"
+          schema:
+            $ref: "#/definitions/Error"
         "200":
-          description: "success"
+          description: "Success"
+          schema:
+            $ref: "#/definitions/JwtResponse"
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -258,13 +281,55 @@ definitions:
         format: "int64"
     xml:
       name: "Todolist"
-  ApiResponse:
+  Error:
     type: "object"
     properties:
-      code:
+      statusCode:
         type: "integer"
         format: "int32"
-      type:
+      err:
         type: "string"
-      message:
+  TodolistResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      user_id:
+        type: "integer"
+        format: "int32"
+      title:
+        type: "string"
+  TaskResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      user_id:
+        type: "integer"
+        format: "int32"
+      title:
+        type: "string"
+      todolist_id:
+        type: "integer"
+        format: "int32"
+      status:
+        type: "integer"
+        format: "int32"
+  UserResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      name:
+        type: "string"
+      password:
+        type: "integer"
+        format: "int32"
+  JwtResponse:
+    type: "object"
+    properties:
+      token:
         type: "string"
