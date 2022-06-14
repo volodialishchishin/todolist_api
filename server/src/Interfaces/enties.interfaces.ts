@@ -16,7 +16,8 @@ export type UserModel = {
 };
 
 export interface DbConfig {
-  user: string
+  type: string
+  username: string
   password: string
   host: string
   port: number

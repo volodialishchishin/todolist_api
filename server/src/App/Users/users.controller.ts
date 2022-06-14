@@ -33,7 +33,7 @@ export class UserController extends BaseController implements IUserController {
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const result = await this.userService.login(req.body.name, req.body.password);
-      const jwt = sign(result.id, this.configService.get('SECRET'));
+      const jwt = sign(result.id.toString(), this.configService.get('SECRET'));
       res.json(jwt);
     } catch (e) {
       return next(HTTPError.forbidden());

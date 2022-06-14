@@ -252,22 +252,16 @@ definitions:
         type: "string"
       password:
         type: "string"
-    xml:
-      name: "User"
   Todolist:
     type: "object"
     properties:
       title:
         type: "string"
-    xml:
-      name: "Todolist"
   Task:
     type: "object"
     properties:
       title:
         type: "string"
-    xml:
-      name: "Todolist"
   UpdatedTask:
     type: "object"
     properties:
@@ -276,8 +270,6 @@ definitions:
       status:
         type: "integer"
         format: "int64"
-    xml:
-      name: "Todolist"
   Error:
     type: "object"
     properties:
@@ -293,7 +285,7 @@ definitions:
         type: "integer"
         format: "int32"
       user_id:
-        $ref: "#/definitions/user_id"
+        $ref: "#/definitions/identificator"
       title:
         type: "string"
   TaskResponse:
@@ -304,7 +296,7 @@ definitions:
         type: "integer"
         format: "int32"
       user_id:
-        $ref: "#/definitions/user_id"
+        $ref: "#/definitions/identificator"
       title:
         type: "string"
       todolist_id:
@@ -318,5 +310,5 @@ definitions:
     properties:
       token:
         type: "string"
-  user_id:
+  identificator:
     type: "integer"

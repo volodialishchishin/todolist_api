@@ -10,9 +10,7 @@ export class ConfigService implements IConfigService {
   constructor() {
     const result: DotenvConfigOutput = config();
     if (result.error) {
-      console.log('.env was not found');
     } else {
-      console.log('Config was created');
       this.config = result.parsed as DotenvParseOutput;
     }
   }
@@ -23,7 +21,8 @@ export class ConfigService implements IConfigService {
 
   getDBConfig():DbConfig {
     return {
-      user: this.get('USER'),
+      type: 'postgres',
+      username: this.get('USER'),
       password: this.get('PASSWORD'),
       host: this.get('HOST'),
       port: Number(this.get('DBPORT')),

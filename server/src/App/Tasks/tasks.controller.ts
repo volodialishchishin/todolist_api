@@ -46,7 +46,6 @@ export class TasksController extends BaseController implements ITasksController 
     const { title } = req.body;
     try {
       const newTask = await this.TasksService.createTask(title, id, status, userId);
-      console.log(newTask)
       res.json(newTask);
     } catch (e) {
       const newTask = await this.TasksService.createTask(title, id, status, userId);

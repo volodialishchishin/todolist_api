@@ -1,29 +1,24 @@
-import express, { Express, json } from 'express';
+import express, { Express, json, Router } from 'express';
 import 'reflect-metadata';
 import { Server } from 'http';
 import cors from 'cors';
 import { inject, injectable } from 'inversify';
 import cookieParser from 'cookie-parser';
-import { UserController } from './Entities/Users/users.controller';
 import { AuthMiddleware } from './Middlewares/authMiddleware';
 import { IConfigService } from './Config/config.service.interface';
 import { TYPES } from './Injection/types';
-import { ToDoController } from './Entities/ToDoLists/todo.controller';
-import { TasksController } from './Entities/Tasks/tasks.controller';
-import { DataBase } from './Common/db';
+import { DataBase } from './Database/db';
 import { IExeptionFilter } from './Middlewares/errorMiddleware.interface';
-import {ILogger} from "./Common/logger/logger.interface";
+import { ILogger } from './Common/logger/logger.interface';
 
 @injectable()
 export class App {
   app: Express;
+
   server: Server;
 
   constructor(
-    @inject(TYPES.ToDoController) private toDoController: ToDoController,
-    @inject(TYPES.UserController) private userController: UserController,
     @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
-    @inject(TYPES.TasksController) private tasksController: TasksController,
     @inject(TYPES.ConfigService) private configService: IConfigService,
     @inject(TYPES.DataBase) private db: DataBase,
     @inject(TYPES.ILogger) private logger: ILogger,
@@ -31,10 +26,8 @@ export class App {
     this.app = express();
   }
 
-  useRoutes(): void {
-    this.app.use('/', this.toDoController.router);
-    this.app.use('/', this.userController.router);
-    this.app.use('/', this.tasksController.router);
+  useRoutes(routes:Array<Router>): void {
+    routes.map((rout:Router) => this.app.use('/', rout));
   }
 
   useCookie():void {
@@ -55,23 +48,18 @@ export class App {
   }
 
   async useDB() {
-    try {
-      await this.db.dbInit();
-      this.logger.log('DB connected');
-    } catch (e) {
-      this.logger.log('Connection to DB was interrupted');
-    }
+    await this.db.dbInit();
   }
 
   useExeptionFilters(): void {
     this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
   }
 
-  async init() {
+  async init(routes: Array<Router>) {
     await this.useDB();
     this.useMiddleware();
     this.useCors();
-    this.useRoutes();
+    this.useRoutes(routes);
     this.useCookie();
     this.useExeptionFilters();
     this.server = this.app.listen(this.configService.get('PORT'));

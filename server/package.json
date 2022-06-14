@@ -27,7 +27,8 @@
     "supertest": "^6.2.3",
     "test": "^0.6.0",
     "ts-jest": "^28.0.2",
-    "tslog": "^3.2.2"
+    "tslog": "^3.2.2",
+    "typeorm": "^0.3.6"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
