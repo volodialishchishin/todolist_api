@@ -6,7 +6,7 @@ export class ITasksRepository {
 
   selectTasks: (id: string, userId:string) => Promise<Task[]>;
 
-  updateTask: (title: string, status: number, id: string, taskid: string, userId:string) => Promise<UpdateResult>;
+  updateTask: (title: string, status: number, id: string, taskid: string, userId:string) => Promise<Task>;
 
   deleteTask: (id: string, taskid: string, userId:string) => Promise<DeleteResult>;
 }

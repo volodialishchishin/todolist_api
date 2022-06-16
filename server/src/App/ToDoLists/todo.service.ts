@@ -36,7 +36,7 @@ export class ToDoService implements IToDoService {
     return todolist;
   }
 
-  async updateTodolist(id: string, title: string, userId:string): Promise<UpdateResult> {
+  async updateTodolist(id: string, title: string, userId:string): Promise<ToDoList> {
     if (!title) {
       throw new Error();
     }

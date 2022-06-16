@@ -24,7 +24,6 @@ export class TasksRepository implements ITasksRepository {
       status,
     });
     await todolist.save();
-
     return todolist;
   }
 
@@ -41,32 +40,32 @@ export class TasksRepository implements ITasksRepository {
     });
   }
 
-  async updateTask(title: string, status: number, id: string, taskid: string, userId:string): Promise<UpdateResult> {
-    return Task.update(
-      {
-        title,
-        status,
+  async updateTask(title: string, status: number, id: string, taskid: string, userId:string): Promise<Task> {
+    const result = await Task.createQueryBuilder().update({
+      title,
+      status,
+    }).where({
+      id: Number(taskid),
+      user: {
+        id: Number(userId),
       },
-      {
-        id: Number(id),
-        user: {
-          id: Number(userId),
-        },
-      },
-    );
+    }).returning('*')
+      .execute();
+    return result.raw[0];
   }
 
   async deleteTask(id: string, taskid: string, userId:string): Promise<DeleteResult> {
-    return Task.delete(
+    const result = await Task.delete(
       {
-        id: Number(id),
+        id: Number(taskid),
         user: {
           id: Number(userId),
         },
         todolist: {
-          id: Number(taskid),
+          id: Number(id),
         },
       },
-    );
+    )
+    return result;
   }
 }

@@ -24,6 +24,7 @@ export const TodolistsList: React.FC = () => {
 
     useEffect(() => {
         const thunk = fetchTodolistsTC()
+        console.log('fsdff')
         dispatch(thunk)
     }, [])
 

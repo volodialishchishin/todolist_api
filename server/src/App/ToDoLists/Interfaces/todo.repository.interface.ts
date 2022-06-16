@@ -8,5 +8,5 @@ export class IToDoRepository {
 
   deleteToDolist: (id: string, userId:string) => Promise<DeleteResult>;
 
-  updateToDolist: (id: string, title: string, userId:string) => Promise<UpdateResult>;
+  updateToDolist: (id: string, title: string, userId:string) => Promise<ToDoList>;
 }

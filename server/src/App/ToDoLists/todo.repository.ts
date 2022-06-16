@@ -38,17 +38,18 @@ export class ToDoRepository implements IToDoRepository {
     );
   }
 
-  async updateToDolist(id: string, title: string, userId:string): Promise<UpdateResult> {
-    return ToDoList.update(
-      {
-        title,
-      },
+  async updateToDolist(id: string, title: string, userId:string): Promise<ToDoList> {
+    const result = await ToDoList.createQueryBuilder().update({
+      title,
+    }).where(
       {
         id: Number(id),
         user: {
           id: Number(userId),
         },
       },
-    );
+    ).returning('*')
+      .execute();
+    return result.raw[0];
   }
 }

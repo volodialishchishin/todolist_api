@@ -42,8 +42,7 @@ export class App {
 
   useCors() : void {
     this.app.use(cors({
-      credentials: true,
-      origin: this.configService.get('CLIENT_URL'),
+      origin: 'http://localhost:3000',
     }));
   }
 
@@ -57,8 +56,8 @@ export class App {
 
   async init(routes: Array<Router>) {
     await this.useDB();
-    this.useMiddleware();
     this.useCors();
+    this.useMiddleware();
     this.useRoutes(routes);
     this.useCookie();
     this.useExeptionFilters();

@@ -2,15 +2,30 @@ import axios from 'axios'
 
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
+    headers: {
+        get: {
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.NQ.ryxZsIktvrt1HVZ7DS_CSan1-wGavDcGHBisc645zfU'
+        },
+        post: {
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.NQ.ryxZsIktvrt1HVZ7DS_CSan1-wGavDcGHBisc645zfU'
+        },
+        delete: {
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.NQ.ryxZsIktvrt1HVZ7DS_CSan1-wGavDcGHBisc645zfU'
+        },
+        put: {
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.NQ.ryxZsIktvrt1HVZ7DS_CSan1-wGavDcGHBisc645zfU'
+        }
+    }
 })
 
 export const todolistsAPI = {
     getTodolists() {
-        const promise = axios.get<TodolistType[]>('todolists')
+        const promise = instance.get<TodolistType[]>('todolists')
         return promise;
     },
     createTodolist(title: string) {
         const promise = instance.post<ResponseType<{ item: TodolistType }>>('todolists', {title: title})
+
         return promise;
     },
     deleteTodolist(id: string) {
@@ -28,7 +43,7 @@ export const todolistsAPI = {
         return instance.delete<ResponseType>(`todolists/${todolistId}/tasks/${taskId}`);
     },
     createTask(todolistId: string, taskTitile: string) {
-        return instance.post<ResponseType<{ item: TaskType}>>(`todolists/${todolistId}/tasks`, {title: taskTitile});
+        return instance.post<ResponseType<{ item: TaskType }>>(`todolists/${todolistId}/tasks`, {title: taskTitile});
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<ResponseType<TaskType>>(`todolists/${todolistId}/tasks/${taskId}`, model);
@@ -44,12 +59,14 @@ export type ResponseType<D = {}> = {
     messages: Array<string>
     data: D
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3
 }
+
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -57,11 +74,14 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
+
 export type TaskType = {
     title: string
     status: TaskStatuses
     id: string
-    todolistid: string
+    todolist: {
+        id: number
+    }
 }
 export type UpdateTaskModelType = {
     title: string

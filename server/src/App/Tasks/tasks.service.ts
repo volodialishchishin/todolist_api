@@ -27,9 +27,9 @@ export class TasksService implements ITasksService {
     return task;
   }
 
-  async updateTask(title: string, status: number, id: string, taskid: string, userId:string): Promise<UpdateResult> {
+  async updateTask(title: string, status: number, id: string, taskid: string, userId:string): Promise<Task> {
     const task = await this.TasksRepository.updateTask(title, status, id, taskid, userId);
-    if (!title || !status) {
+    if (!title) {
       throw new Error();
     }
     return task;
