@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 import { AuthMiddleware } from './Middlewares/authMiddleware';
 import { IConfigService } from './Config/config.service.interface';
 import { TYPES } from './Injection/types';
-import { DataBase } from './Database/db';
+import { db } from './Database/db';
 import { IExeptionFilter } from './Middlewares/errorMiddleware.interface';
 import { ILogger } from './Common/logger/logger.interface';
 
@@ -20,7 +20,6 @@ export class App {
   constructor(
     @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
     @inject(TYPES.ConfigService) private configService: IConfigService,
-    @inject(TYPES.DataBase) private db: DataBase,
     @inject(TYPES.ILogger) private logger: ILogger,
   ) {
     this.app = express();
@@ -46,16 +45,16 @@ export class App {
     }));
   }
 
-  async useDB() {
-    await this.db.dbInit();
-  }
-
   useExeptionFilters(): void {
     this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
   }
 
   async init(routes: Array<Router>) {
-    await this.useDB();
+    await db.initialize().then(() => {
+      this.logger.log('Data Source has been initialized!');
+    }).catch((err) => {
+      this.logger.log('Error during Data Source initialization', err);
+    });
     this.useCors();
     this.useMiddleware();
     this.useRoutes(routes);

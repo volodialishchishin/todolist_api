@@ -8,7 +8,8 @@
     "dev": "nodemon",
     "test": "jest",
     "build": "tsc",
-    "test:e2e": "jest --config jest.e2e.config.ts"
+    "test:e2e": "jest --config jest.e2e.config.ts",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
   },
   "license": "ISC",
   "dependencies": {

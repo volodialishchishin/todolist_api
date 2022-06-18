@@ -16,7 +16,6 @@ import { TasksService } from '../App/Tasks/tasks.service';
 import { ITasksRepository } from '../App/Tasks/Interfaces/tasks.repository.interface';
 import { IUserService } from '../App/Users/Interfaces/users.service.interface';
 import { TasksRepository } from '../App/Tasks/tasks.repository';
-import { DataBase } from '../Database/db';
 import { ErrorMiddleware } from '../Middlewares/errorMiddleware';
 import { IExeptionFilter } from '../Middlewares/errorMiddleware.interface';
 import { IUserController } from '../App/Users/Interfaces/users.controller.interface';
@@ -44,7 +43,6 @@ const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IUserRepository>(TYPES.UsersRepository).to(UsersRepository);
 
   bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
-  bind<DataBase>(TYPES.DataBase).to(DataBase).inSingletonScope();
   bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ErrorMiddleware);
 });
 export {

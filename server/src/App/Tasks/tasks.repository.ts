@@ -1,16 +1,11 @@
-import { inject, injectable } from 'inversify';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import {  injectable } from 'inversify';
+import { DeleteResult } from 'typeorm';
 import { ITasksRepository } from './Interfaces/tasks.repository.interface';
-import { TYPES } from '../../Injection/types';
-import { DataBase } from '../../Database/db';
+import { db } from '../../Database/db';
 import { Task } from '../../Database/Enteties/Task';
 
 @injectable()
 export class TasksRepository implements ITasksRepository {
-  constructor(
-    @inject(TYPES.DataBase) private db:DataBase,
-  ) {
-  }
 
   async insertTask(title: string, id: string, status: number, userId:string): Promise<Task> {
     const todolist = Task.create({
