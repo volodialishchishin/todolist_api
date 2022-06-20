@@ -45,11 +45,6 @@ export class App {
     }));
   }
 
-  useTest() : void {
-    this.app.use('/',(req,res)=>{
-      res.send('fsdfsd')
-    });
-  }
 
   useExeptionFilters(): void {
     this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
@@ -63,7 +58,6 @@ export class App {
     });
     this.useCors();
     this.useMiddleware();
-    this.useTest()
     this.useRoutes(routes);
     this.useCookie();
     this.useExeptionFilters();
